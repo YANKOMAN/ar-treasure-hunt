@@ -1,46 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AR Treasure Hunt - Validate Object</title>
+    <title>Simple AR Message on Marker</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.7/aframe/build/aframe-ar.min.js"></script>
   </head>
   <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs>
 
-      <a-marker id="ballon" preset="hiro" markerhandler>
-        <a-box position="0 0.5 0" material="color: red;"></a-box>
-      </a-marker>
-
-      <a-marker id="trophee" preset="kanji" markerhandler>
-        <a-sphere position="0 0.5 0" radius="0.3" material="color: gold;"></a-sphere>
+      <a-marker preset="hiro" id="marker1" simple-message>
+        <a-box position="0 0.5 0" material="color: blue;"></a-box>
       </a-marker>
 
       <a-entity camera></a-entity>
     </a-scene>
 
     <script>
-      const foundObjects = new Set();
-
-      AFRAME.registerComponent('markerhandler', {
+      AFRAME.registerComponent('simple-message', {
         init: function () {
           this.el.addEventListener('markerFound', () => {
-            console.log('Marker found event fired:', this.el.id);
-            const markerId = this.el.id;
-
-            if (!foundObjects.has(markerId)) {
-              foundObjects.add(markerId);
-              alert(`Objet ${markerId} trouvé ! Bravo !`);
-              console.log('Objets trouvés:', Array.from(foundObjects));
-
-              if (foundObjects.size === 2) {
-                alert('Félicitations, vous avez trouvé tous les objets !');
-              }
-            }
-          });
-
-          this.el.addEventListener('markerLost', () => {
-            console.log('Marker lost:', this.el.id);
+            alert("Bravo, vous avez trouvé l'objet !");
           });
         }
       });
