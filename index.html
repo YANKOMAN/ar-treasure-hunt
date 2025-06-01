@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Basic AR.js with A-Frame</title>
+    <title>AR Treasure Hunt - Basic</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.7/aframe/build/aframe-ar.min.js"></script>
   </head>
   <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs>
-      <!-- The marker (preset "hiro" built-in) -->
+      <!-- Marker -->
       <a-marker preset="hiro">
-        <!-- This box will appear on the marker -->
-        <a-box position="0 0.5 0" rotation="0 45 0" color="red"></a-box>
+        <!-- 3D Object: a red box -->
+        <a-box position="0 0.5 0" material="color: red;"></a-box>
       </a-marker>
-
-      <!-- Camera for AR -->
       <a-entity camera></a-entity>
     </a-scene>
   </body>
