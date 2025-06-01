@@ -25,6 +25,7 @@
       AFRAME.registerComponent('markerhandler', {
         init: function () {
           this.el.addEventListener('markerFound', () => {
+            console.log('Marker found event fired:', this.el.id);
             const markerId = this.el.id;
 
             if (!foundObjects.has(markerId)) {
@@ -32,11 +33,14 @@
               alert(`Objet ${markerId} trouvé ! Bravo !`);
               console.log('Objets trouvés:', Array.from(foundObjects));
 
-              // If all objects found
               if (foundObjects.size === 2) {
                 alert('Félicitations, vous avez trouvé tous les objets !');
               }
             }
+          });
+
+          this.el.addEventListener('markerLost', () => {
+            console.log('Marker lost:', this.el.id);
           });
         }
       });
