@@ -1,23 +1,45 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AR.js Basic Example</title>
-    <meta charset="utf-8" />
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.6/aframe/build/aframe-ar.js"></script>
-    <style>
-      body { margin: 0; overflow: hidden; }
-      #arjsDebugUIContainer { display: none; }
-    </style>
+    <title>AR Treasure Hunt - Validate Object</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.7/aframe/build/aframe-ar.min.js"></script>
   </head>
-  <body>
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-      <!-- HIRO marker -->
-      <a-marker preset="hiro">
-        <a-box position="0 0.5 0" color="red" ></a-box>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs>
+
+      <a-marker id="ballon" preset="hiro" markerhandler>
+        <a-box position="0 0.5 0" material="color: red;"></a-box>
+      </a-marker>
+
+      <a-marker id="trophee" preset="kanji" markerhandler>
+        <a-sphere position="0 0.5 0" radius="0.3" material="color: gold;"></a-sphere>
       </a-marker>
 
       <a-entity camera></a-entity>
     </a-scene>
+
+    <script>
+      const foundObjects = new Set();
+
+      AFRAME.registerComponent('markerhandler', {
+        init: function () {
+          this.el.addEventListener('markerFound', () => {
+            const markerId = this.el.id;
+
+            if (!foundObjects.has(markerId)) {
+              foundObjects.add(markerId);
+              alert(`Objet ${markerId} trouvé ! Bravo !`);
+              console.log('Objets trouvés:', Array.from(foundObjects));
+
+              // If all objects found
+              if (foundObjects.size === 2) {
+                alert('Félicitations, vous avez trouvé tous les objets !');
+              }
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>
