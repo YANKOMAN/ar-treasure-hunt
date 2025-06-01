@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Simple AR Message on Marker</title>
+    <title>AR Object + Message on Detection</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.7/aframe/build/aframe-ar.min.js"></script>
   </head>
   <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs>
 
+      <!-- Marker with AR object -->
       <a-marker preset="hiro" id="marker1" simple-message>
-        <a-box position="0 0.5 0" material="color: blue;"></a-box>
+        <!-- Your AR object visible when marker detected -->
+        <a-box position="0 0.5 0" material="color: green;"></a-box>
       </a-marker>
 
       <a-entity camera></a-entity>
@@ -18,8 +20,16 @@
     <script>
       AFRAME.registerComponent('simple-message', {
         init: function () {
+          let alerted = false; // to avoid multiple alerts while marker stays detected
           this.el.addEventListener('markerFound', () => {
-            alert("Bravo, vous avez trouvé l'objet !");
+            if (!alerted) {
+              alerted = true;
+              alert("Bravo, vous avez trouvé l'objet !");
+            }
+          });
+
+          this.el.addEventListener('markerLost', () => {
+            alerted = false; // reset alert so it can appear again next time marker found
           });
         }
       });
